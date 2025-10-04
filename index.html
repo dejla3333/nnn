@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ذهن‌خوانی چندصفحه‌ای</title>
+<style>
+  body {
+    font-family: Tahoma, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: #f0f0f0;
+    margin: 0;
+  }
+
+  .page {
+    display: none;
+    background: #fff;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    text-align: center;
+    width: 300px;
+  }
+
+  .active {
+    display: block;
+  }
+
+  input[type="number"] {
+    width: 80%;
+    padding: 0.5rem;
+    margin: 1rem 0;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    text-align: center;
+  }
+
+  button {
+    padding: 0.7rem 1.5rem;
+    border: none;
+    border-radius: 8px;
+    background: #F2A1F2;
+    color: #fff;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 1rem;
+  }
+
+  .loading-text {
+    font-style: italic;
+    color: #555;
+    margin-top: 1rem;
+  }
+
+  .result-text {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #707FF5;
+  }
+</style>
+</head>
+<body>
+
+<!-- صفحه انتخاب عدد -->
+<div class="page active" id="page1">
+  <p>یک عدد بین 1 تا 100 انتخاب کنید:</p>
+  <input type="number" id="numberInput" min="1" max="100">
+  <br>
+  <button onclick="goToLoading()">بعدی</button>
+</div>
+
+<!-- صفحه لودینگ -->
+<div class="page" id="page2">
+  <h2>در حال خواندن ذهن...</h2>
+  <div class="loading-text">لطفاً صبر کنید...</div>
+</div>
+
+<!-- صفحه نتیجه -->
+<div class="page" id="page3">
+  <h2>ذهن شما خوانده شد!</h2>
+  <div class="result-text" id="resultText"></div>
+</div>
+
+<script>
+let selectedNumber = null;
+
+function showPage(pageId) {
+  document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
+  document.getElementById(pageId).classList.add('active');
+}
+
+function goToLoading() {
+  const number = document.getElementById('numberInput').value;
+  if(number === "" || number < 1 || number > 100){
+    alert("لطفاً یک عدد معتبر بین 1 تا 100 وارد کنید!");
+    return;
+  }
+  selectedNumber = number;
+  showPage('page2');
+
+  // شبیه‌سازی لودینگ ذهن‌خوانی
+  setTimeout(() => {
+    document.getElementById('resultText').textContent = `شما به عدد ${selectedNumber} فکر کردید!`;
+    showPage('page3');
+  }, 2000); // 2 ثانیه
+}
+</script>
+
+</body>
+</html>
